@@ -1265,6 +1265,7 @@ Metamaps.Visualize = {
                 });
 
                 startPos = new $jit.Complex(0, 0);
+                //this is where zoom extents needs figured out RobFind
                 endPos = new $jit.Complex(mapping.get('xloc'), mapping.get('yloc'));
                 n.setPos(startPos, 'start');
                 n.setPos(endPos, 'end');
