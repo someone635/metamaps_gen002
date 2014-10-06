@@ -2457,20 +2457,37 @@ Extras.Classes.Navigation = new Class({
     // END METAMAPS CODE
     // ORIGINAL CODE $.event.stop($.event.get(e, win));
 
-    var val = this.config.zooming / 1000,
-        ans = 1 + scroll * val;
+    //var val = this.config.zooming / 1000,
+    //    ans = 1 + scroll * val;
         
     // START METAMAPS CODE
-	  if (ans > 1) {
+    var factor = 1 + this.config.zooming / 1000;
+
+	  var mousePos = Metamaps.Util.pixelsToCoords({x:e.pageX, y:e.pageY});
+    var canvasOffsetX = Metamaps.Visualize.mGraph.canvas.translateOffsetX;
+    var canvasOffsetY = Metamaps.Visualize.mGraph.canvas.translateOffsetY;
+
+    var translateX = mousePos.x;
+    var translateY = mousePos.y;
+
+    console.log(mousePos.x,mousePos.y,canvasOffsetX,canvasOffsetY);
+    
+        
+    // START METAMAPS CODE
+    if (scroll > 0) {
       if (5 >= this.canvas.scaleOffsetX) {
-		    this.canvas.scale(ans, ans);
-	    }
-	  }
-	  else if (ans < 1) {
+        this.canvas.translate(-translateX,-translateY);
+        this.canvas.scale(factor, factor);
+        this.canvas.translate(translateX / factor ,translateY / factor);
+      }
+    }
+    else if (scroll < 0) {
       if (this.canvas.scaleOffsetX >= 0.2) {
-		    this.canvas.scale(ans, ans);
-	    }
-	  }
+        this.canvas.translate(-translateX,-translateY);
+        this.canvas.scale(1/factor, 1/factor);
+        this.canvas.translate(translateX * factor,translateY * factor);
+      }
+    }
     // END METAMAPS CODE
     // ORIGINAL CODE this.canvas.scale(ans, ans);
 
