@@ -1896,7 +1896,7 @@ Metamaps.Realtime = {
         $('body').click(self.close);
 
         var railsEnv = $('body').data('env');
-        var whichToConnect = railsEnv === 'development' ? self.stringForLocalhost : self.stringForHeroku;
+        var whichToConnect = railsEnv === 'development' ? self.stringForLocalhost : self.stringForMetamaps;
         self.socket = io.connect(whichToConnect);
         self.socket.on('connect', function () {
             self.startActiveMap();
