@@ -915,16 +915,45 @@
     z-index: 4;
 }
 
-.takeScreenshot {
+.screenshotControls {
+    width: 32px;
+    height: 32px;
     margin-bottom: 5px;
+    position: relative;
+}
+.screenshotControls:hover {
+    height: 64px;
+}
+.screenshotControls:hover .takeScreenshotCurrent {
+    bottom: 32px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.screenshotControls:hover .takeScreenshotFull {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.takeScreenshotCurrent {
+    position: absolute;
     border-radius: 2px;
+    bottom: 0;
+    z-index: 0;
+    -webkit-transition: bottom .1s ease-in-out; /* For Safari 3.1 to 6.0 */
+    transition: bottom .1s ease-in-out;
+}
+
+.takeScreenshotFull {
+    position: absolute;
+    border-radius: 2px;
+    bottom: 0;
     background-image: url(screenshot_sprite.png);
     display: none;
+    z-index: 1;
 }
-.takeScreenshot:hover {
+.takeScreenshotFull:hover {
     background-position: -32px 0;
 }
-.canEditMap .takeScreenshot {
+.canEditMap .takeScreenshotFull {
     display: block;
 }
 
@@ -938,7 +967,7 @@
     background-position: -32px 0;
 }
 
-.zoomExtents:hover .tooltips, .zoomIn:hover .tooltips, .zoomOut:hover .tooltips, .takeScreenshot:hover .tooltips, .sidebarCollaborateIcon:hover .tooltipsUnder,
+.zoomExtents:hover .tooltips, .zoomIn:hover .tooltips, .zoomOut:hover .tooltips, .takeScreenshotFull:hover .tooltips, .takeScreenshotCurrent:hover .tooltips, .sidebarCollaborateIcon:hover .tooltipsUnder,
  .sidebarFilterIcon:hover .tooltipsUnder, .sidebarForkIcon:hover .tooltipsUnder, .addMap:hover .tooltipsUnder, .authenticated .sidebarAccountIcon:hover .tooltipsUnder,
  .mapInfoIcon:hover .tooltipsAbove, .openCheatsheet:hover .tooltipsAbove {
     display: block;
@@ -1033,7 +1062,7 @@
     margin-top: 40px;
 }
 
-.zoomExtents div::after, .zoomIn div::after, .zoomOut div::after, .takeScreenshot div:after {
+.zoomExtents div:after, .zoomIn div:after, .zoomOut div:after, .takeScreenshotFull div:after, .takeScreenshotCurrent div:after {
     content: '';
     position: absolute;
     top: 57%;

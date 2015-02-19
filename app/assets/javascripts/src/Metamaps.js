@@ -4522,19 +4522,26 @@ Metamaps.Map = {
         Metamaps.Map.timeToTurn = 0;
         Metamaps.Map.turnCount = 0;
     },
-    exportImage: function() {
+    exportImage: function(view) {
 
-        var canvas = {};
+        var WIDTH = 1880,
+            HEIGHT = 1260,
+            canvas = {},
+            current = view === 'current' ? true : false,
+            original = Metamaps.Visualize.mGraph.canvas,
+            modScale = original.scaleOffsetX,
+            modTransX = original.translateOffsetX,
+            modTransY = original.translateOffsetY;
 
         canvas.canvas = document.createElement("canvas");
-        canvas.canvas.width  =  1880; // 960;
-        canvas.canvas.height = 1260; // 630
+        canvas.canvas.width  = WIDTH;
+        canvas.canvas.height = HEIGHT;
 
         canvas.scaleOffsetX = 1;
         canvas.scaleOffsetY = 1;
-        canvas.translateOffsetY = 0;
         canvas.translateOffsetX = 0;
-        canvas.denySelected = true;
+        canvas.translateOffsetY = 0;
+        canvas.denySelected = current ? false : true;
 
         canvas.getSize =  function() {
             if(this.size) return this.size;
@@ -4565,7 +4572,7 @@ Metamaps.Map = {
           return this.canvas.getContext("2d");
         };
         // center it
-        canvas.getCtx().translate(1880/2, 1260/2);
+        canvas.getCtx().translate(WIDTH/2, HEIGHT/2);
 
         var mGraph = Metamaps.Visualize.mGraph;
 
@@ -4574,11 +4581,15 @@ Metamaps.Map = {
         var T = !!root.visited;
 
         // pass true to avoid basing it on a selection
-        Metamaps.JIT.zoomExtents(null, canvas, true);
+        if (!current) Metamaps.JIT.zoomExtents(null, canvas, true);
+        else if (current) {
+            canvas.translate(modTransX, modTransY);
+            canvas.getCtx().scale(modScale, modScale);
+        }
 
         var c = canvas.canvas,
             ctx = canvas.getCtx(),
-            scale = canvas.scaleOffsetX;
+            scale = current ? modScale : canvas.scaleOffsetX;
 
         // draw a grey background
         ctx.fillStyle = '#d8d9da';

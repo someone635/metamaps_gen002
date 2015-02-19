@@ -26,7 +26,12 @@ Metamaps.JIT = {
         };
         $(".zoomExtents").click(zoomExtents);
 
-        $(".takeScreenshot").click(Metamaps.Map.exportImage);
+        $(".takeScreenshotCurrent").click(function(){
+            Metamaps.Map.exportImage('current');
+        });
+        $(".takeScreenshotFull").click(function(){
+            Metamaps.Map.exportImage('full');
+        });
 
         self.topicDescImage = new Image();
         self.topicDescImage.src = '/assets/topic_description_signifier.png';
