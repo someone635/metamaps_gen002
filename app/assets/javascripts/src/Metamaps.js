@@ -4053,6 +4053,73 @@ Metamaps.Topic = {
             }
         }
     },
+    createCSVInputTextarea: function() {
+      $('body').append('<textarea id="parseCSV" style="position: absolute; top: 50%; left: 50%;"></textarea>');
+      $('#parseCSV').keyup(function(e) {
+        if (e.keyCode == 13) { 
+          Metamaps.Topic.parseTopicCSVInput($('#parseCSV').val());
+          $('#parseCSV').val('');
+        }//if
+      });
+    },
+    parseTopicCSVInput: function(input) {
+      var self = Metamaps.Topic;
+      var lines = input.split("\n");
+      if (lines.length < 2) {
+        alert("Dude! You need a line describing the input, and then at least one topic!!");
+        return;
+      };
+      var line1 = lines[0];
+      if (line1 == "name	metacode") {
+        var x = -500;
+        var y = -300;
+        for (var i = 1; i < lines.length; i += 1) {
+          var line = lines[i].split("\t");
+
+          if (line.length !== 2) {
+            console.log("Invalid line: " + lines[i]);
+            continue;
+          }//if
+
+          //sanitize...?!?!
+          var name = line[0].replace(/"/gi,'&quot;').replace(/'/gi,'&apos;');
+          var metacode = line[1].replace(/"/gi,'&quot;').replace(/'/gi,'&apos;');
+
+          self.createTopicLocallyFromArguments(name, metacode, x, y);
+
+          x += 50;
+          if (x > 500) {
+            x = -500;
+            y += 100;
+          }//if
+        }//for
+      } else {
+        console.log("The only support CSV header is 'name<tab>metacode', sorry!");
+      }//if
+    },
+    createTopicLocallyFromArguments: function(arg_name, arg_metacode, arg_x, arg_y) {
+        var metacode = Metamaps.Metacodes.findWhere({name:arg_metacode});
+        if (metacode == undefined) {
+          console.log("Metacode not found: " + arg_metacode);
+          return;
+        }//if
+
+        var topic = new Metamaps.Backbone.Topic({
+            name: arg_name,
+            metacode_id: metacode.id
+        });
+        Metamaps.Topics.add(topic);
+
+        var mapping = new Metamaps.Backbone.Mapping({
+            category: "Topic",
+            xloc: arg_x,
+            yloc: arg_y,
+            topic_id: topic.cid
+        });
+        Metamaps.Mappings.add(mapping);
+
+        Metamaps.Topic.renderTopic(mapping, topic, true, true); // this function also includes the creation of the topic in the database
+    },  
     createTopicLocally: function () {
         var self = Metamaps.Topic;
 
