@@ -2,15 +2,17 @@
   <tr>
     <th>ID</th>
     <th>Name</th>
-    <th>Permission</th>
+    <th>Metacode</th>
     <th>Username</th>
+    <th>Permission</th>
   </tr>
   <% @map.topics.each do |topic| %>
   <tr>
     <td><%= topic.id %></td>
     <td><%= topic.name %></td>
-    <td><%= topic.permission %></td>
+    <td><%= topic.metacode.name %></td>
     <td><%= topic.user.name %></td>
+    <td><%= topic.permission %></td>
   </tr>
   <% end %>
 </table>

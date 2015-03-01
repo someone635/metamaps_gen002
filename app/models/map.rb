@@ -84,13 +84,14 @@ class Map < ActiveRecord::Base
 
   def to_csv(options = {})
     CSV.generate(options) do |csv|
-      csv << ["id", "name", "permission", "user.name"]
+      csv << ["id", "name", "metacode", "user.name", "permission"]
       self.topics.each do |topic|
         csv << [
           topic.id,
           topic.name,
-          topic.permission,
-          topic.user.name
+          topic.metacode.name,
+          topic.user.name,
+          topic.permission
         ]
       end
     end
