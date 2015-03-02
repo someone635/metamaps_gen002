@@ -1049,7 +1049,7 @@ Metamaps.JIT = {
             Metamaps.Create.newTopic.hide();
             if ($(Metamaps.Create.newSynapse).is(":visible")) {
               //this function also hides the newSynapse form
-              Metamaps.Create.newSynapse.$('#synapse_desc').val() == "") {
+              Metamaps.Create.newSynapse.val() == "") {
             }//if
 
             $('.rightclickmenu').remove();
