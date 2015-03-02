@@ -1047,9 +1047,9 @@ Metamaps.JIT = {
             Metamaps.TopicCard.hideCard();
             Metamaps.SynapseCard.hideCard();
             Metamaps.Create.newTopic.hide();
-            if ($(Metamaps.Create.newSynapse).is(":visible")) {
-              //this function also hides the newSynapse form
-              Metamaps.Create.newSynapse.val() == "") {
+            if ($('#new_synapse').is(":visible")) {
+              //this function also hides the new_synapse form
+              Metamaps.Synapse.createSynapseLocally();
             }//if
 
             $('.rightclickmenu').remove();
