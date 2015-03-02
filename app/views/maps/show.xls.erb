@@ -5,6 +5,7 @@
     <th>Metacode</th>
     <th>Username</th>
     <th>Permission</th>
+    <th>Synapses</th>
   </tr>
   <% @map.topics.each do |topic| %>
   <tr>
@@ -13,6 +14,9 @@
     <td><%= topic.metacode.name %></td>
     <td><%= topic.user.name %></td>
     <td><%= topic.permission %></td>
+    <% topic.synapses_csv.each do |s_text| %>
+      <td><%= s_text %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>
